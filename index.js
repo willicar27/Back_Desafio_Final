@@ -73,10 +73,10 @@ const checkAdmin = async (req, res, next) => {
 
 // RUTA POST
 
-app.post('/usuarios', async (req, res) => {
-  const { email, password, nombre, apellido } = req.body;
+app.post('/register', async (req, res) => {
+  const { email, password, nombre } = req.body;
   try {
-    await addUser(email, password, nombre, apellido);
+    await addUser(email, password, nombre);
     res.status(201).json({ message: 'Usuario agregado con éxito' });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -115,7 +115,6 @@ app.get('/usuarios', authenticateJWT, async (req, res) => {
       id: user.id,
       email: user.email,
       nombre: user.nombre,
-      apellido: user.apellido,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

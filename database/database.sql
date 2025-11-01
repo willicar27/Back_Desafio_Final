@@ -9,7 +9,8 @@ CREATE TABLE usuarios (
   email VARCHAR(75) NOT NULL, 
   password VARCHAR(1000) NOT NULL, 
   nombre VARCHAR(50) NOT NULL, 
-  apellido VARCHAR(50) NOT NULL,
+  img_perfil TEXT,
+  sobre_mi VARCHAR(300),
   admin BOOLEAN DEFAULT false
 );
 
@@ -24,7 +25,7 @@ CREATE TABLE libros (
   genero VARCHAR(250),
   descripcion VARCHAR(2500),
   precio DECIMAL(15, 2),
-  url_img VARCHAR(1000),
+  url_img TEXT,
   estado BOOLEAN,
   usuario_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE

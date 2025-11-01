@@ -13,11 +13,11 @@ import bcrypt from 'bcryptjs';
 //   admin BOOLEAN DEFAULT false
 // );
 
-const addUser = async (email, password, nombre, apellido) => {
+const addUser = async (email, password, nombre) => {
 
     // Validar que se proporcionen todos los campos requeridos
 
-    if (!email || !password || !nombre || !apellido) {
+    if (!email || !password || !nombre) {
         throw new Error('Todos los campos son requeridos');
     }
 
@@ -40,7 +40,7 @@ const addUser = async (email, password, nombre, apellido) => {
         // Insertar el nuevo usuario en la base de datos en caso de que no exista el email
 
         const insertUserQuery = 'INSERT INTO usuarios (email, password, nombre, apellido) VALUES ($1, $2, $3, $4)';
-        const values = [email, hashedPassword, nombre, apellido];
+        const values = [email, hashedPassword, nombre];
         await pool.query(insertUserQuery, values);
 
         // console.log('Usuario agregado con éxito');
@@ -107,7 +107,7 @@ const loginUser = async (email, password) => {
 // Función rapida para obtener los datos del usuario por su ID
 
 const getUserById = async (userId) => {
-    const query = 'SELECT id, email, nombre, apellido FROM usuarios WHERE id = $1';
+    const query = 'SELECT id, email, nombre FROM usuarios WHERE id = $1';
     const values = [userId];
 
     try {
