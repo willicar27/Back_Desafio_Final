@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { pool } from '../database/pool.js';
+import { pool } from '../../database/pool.js';
 
 //middleware para verificar el JWT
 

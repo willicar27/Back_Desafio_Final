@@ -1,4 +1,4 @@
-import { pool } from '../database/pool.js';
+import { pool } from '../../database/pool.js';
 
 // CREATE TABLE pedido (
 //   id_pedido SERIAL PRIMARY KEY,

@@ -1,10 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import { addUser , loginUser , getUserById , deleteUser} from './queries/queriesUsuarios.js';
-import { addBook , getBookById , deleteBook, getAllBooks} from './queries/queriesLibros.js';
+import { addUser } from './src/controllers/ususario.controller.js';
+import { loginUser , getUserById , deleteUser} from './src/queries/queriesUsuarios.js';
+import { addBook , getBookById , deleteBook, getAllBooks} from './src/queries/queriesLibros.js';
 import dotenv from 'dotenv';
-import { authenticateJWT , checkAdmin } from './middlewares/middleware.js';
-import { newOrder } from './queries/pedidos.js';
+import { authenticateJWT , checkAdmin } from './src/middlewares/middleware.js';
+import { newOrder } from './src/queries/pedidos.js';
 
 
 dotenv.config();
@@ -23,10 +24,10 @@ app.listen(PORT, async () => {
 // RUTA POST
 
 app.post('/usuarios', async (req, res) => {
-  const { email, password, nombre, apellido } = req.body;
+  const { email, password, nombre } = req.body;
   try {
-    await addUser(email, password, nombre, apellido);
-    res.status(201).json({ message: 'Usuario agregado con éxito' });
+    const result = await addUser(email, password, nombre);
+    res.status(201).json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

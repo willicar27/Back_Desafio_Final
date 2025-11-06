@@ -1,4 +1,4 @@
-import { pool } from '../database/pool.js';
+import { pool } from '../../database/pool.js';
 
 // Función para agregar un libro
 
