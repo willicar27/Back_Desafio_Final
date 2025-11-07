@@ -4,7 +4,7 @@ export const checkEmailQuery = async (email) => {
     const query = 'SELECT * FROM usuarios WHERE email = $1';
     const result = await pool.query(query, [email]);
     return result.rows[0];
-}
+};
 
 export const insertUserQuery = async (email, hashedPassword, nombre) => {
     const query = 
@@ -12,4 +12,4 @@ export const insertUserQuery = async (email, hashedPassword, nombre) => {
     const values = [email, hashedPassword, nombre];
     const result = await pool.query(query, values);
     return result.rows[0];
-}
+};

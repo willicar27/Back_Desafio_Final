@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { addUser } from './src/controllers/ususario.controller.js';
-import { loginUser , getUserById , deleteUser} from './src/queries/queriesUsuarios.js';
+import { addUser, loginUser } from './src/controllers/ususario.controller.js';
+import { getUserById , deleteUser} from './src/queries/queriesUsuarios.js';
 import { addBook , getBookById , deleteBook, getAllBooks} from './src/queries/queriesLibros.js';
 import dotenv from 'dotenv';
 import { authenticateJWT , checkAdmin } from './src/middlewares/middleware.js';
