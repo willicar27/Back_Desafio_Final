@@ -102,17 +102,17 @@ import { checkEmailQuery } from '../models/usuario.model.js';
 //-------------------------------------------------------------------------------------------------------------
 // Función rapida para obtener los datos del usuario por su ID
 
-const getUserById = async (userId) => {
-    const query = 'SELECT id, email, nombre, apellido FROM usuarios WHERE id = $1';
-    const values = [userId];
+// const getUserById = async (userId) => {
+//     const query = 'SELECT id, email, nombre, apellido FROM usuarios WHERE id = $1';
+//     const values = [userId];
 
-    try {
-        const result = await pool.query(query, values);
-        return result.rows[0]; // Retorna el usuario encontrado
-    } catch (error) {
-        throw new Error('Error al obtener los datos del usuario: ' + error.message);
-    }
-};
+//     try {
+//         const result = await pool.query(query, values);
+//         return result.rows[0]; // Retorna el usuario encontrado
+//     } catch (error) {
+//         throw new Error('Error al obtener los datos del usuario: ' + error.message);
+//     }
+// };
 
 //-------------------------------------------------------------------------------------------------------------
 
@@ -129,4 +129,4 @@ const deleteUser = async (id_usuarios) => {
     }
 };
 
-export { addUser, loginUser, getUserById, deleteUser };
+export {  deleteUser };

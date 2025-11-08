@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { addUser, loginUser } from './src/controllers/ususario.controller.js';
-import { getUserById , deleteUser} from './src/queries/queriesUsuarios.js';
+import { addUser, loginUser, getUserProfile, getUserProfileID, deleteProfile } from './src/controllers/ususario.controller.js';
 import { addBook , getBookById , deleteBook, getAllBooks} from './src/queries/queriesLibros.js';
 import dotenv from 'dotenv';
 import { authenticateJWT , checkAdmin } from './src/middlewares/middleware.js';
@@ -48,76 +47,15 @@ app.post('/login', async (req, res) => {
 
 // Ruta GET
 
-app.get('/usuarios', authenticateJWT, async (req, res) => {
-  try {
-    const { userId } = req.user; // El userId viene del JWT
-
-    // Obtener el usuario de la base de datos por el ID
-
-    const user = await getUserById(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-
-    // Responder con los datos del usuario
-    res.json({
-      id: user.id,
-      email: user.email,
-      nombre: user.nombre,
-      apellido: user.apellido,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+app.get('/usuarios', authenticateJWT, getUserProfile );
 
 // Ruta GET por ID
 
-app.get('/usuarios/:id', authenticateJWT, async (req, res) => {
-  const userId = req.params.id;
-  const loggedUserId = req.user.userId;
-
-
-  //validar que el userId del token sea igual al userId de la ruta
-  if (userId !== loggedUserId) {
-    return res.status(403).json({ message: 'No tienes permiso para acceder a este usuario' }); 
-  }
-
-  try {
-      const user = await getUserById(userId);
-      if (!user) {
-          return res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-      res.json(user);
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
-});
+app.get('/usuarios/:id', authenticateJWT, getUserProfileID);
 
 // Ruta DELETE
 
-app.delete('/usuarios/:id', authenticateJWT, checkAdmin, async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    if (isNaN(id)) {
-      return res.status(400).json({ message: 'ID de usuario inválido' });
-    }
-
-    const result = await deleteUser(id);
-
-    if (result === 0) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-
-    res.status(200).json({ message: 'Usuario eliminado con éxito' });
-
-  } catch (error) {
-    console.error('Error al eliminar usuario:', error);
-    res.status(500).json({ message: 'Error interno del servidor', error: error.message });
-  }
-});
+app.delete('/usuarios/:id', authenticateJWT, checkAdmin, deleteProfile);
 
 //-------------------------------------------------------------------------------------------------------------
 // rutas para libros

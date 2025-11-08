@@ -13,3 +13,26 @@ export const insertUserQuery = async (email, hashedPassword, nombre) => {
     const result = await pool.query(query, values);
     return result.rows[0];
 };
+
+export const getUserById = async (userId) => {
+    const query = 'SELECT id, email, nombre FROM usuarios WHERE id = $1';
+    const values = [userId];
+    try {
+    const result = await pool.query(query, values);
+    return result.rows[0];
+    } catch (error) {
+        throw new Error('Error al obtener los datos del usuario' + error.message);
+    }
+};
+
+export const deleteUser = async(id_usuarios) => {
+    const query = 'DELETE FROM usuarios WHERE id_usuarios = $1';
+    const values = [id_usuarios];
+    
+    try {
+        const result = await pool.query(query, values);
+        return result.rowCount;
+    } catch (error) {
+        throw new Error('Error al eliminar el usuario: ' + error.message);
+    }
+}

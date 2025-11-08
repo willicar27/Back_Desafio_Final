@@ -1,4 +1,4 @@
-import { checkEmailQuery, insertUserQuery } from '../models/usuario.model.js';
+import { checkEmailQuery, insertUserQuery, getUserById, deleteUser } from '../models/usuario.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -87,4 +87,69 @@ export const loginUser = async (email, password) => {
     } catch (error) {
         throw new Error('Error al iniciar sesión: ' + error.message);
     }
+};
+
+// controllers/usuario.controllers.js
+export const getUserProfile = async (req, res) => {
+    try {
+        const { userId } = req.user;
+
+        const user = await getUserById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        res.json({
+            id: user.id,
+            email: user.email,
+            nombre: user.nombre,
+            apellido: user.apellido,
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getUserProfileID = async (req, res) => {
+const userId = req.params.id;
+const loggedUserId = req.user.userId;
+
+
+  //validar que el userId del token sea igual al userId de la ruta
+if (userId !== loggedUserId) {
+    return res.status(403).json({ message: 'No tienes permiso para acceder a este usuario' }); 
+}
+
+try {
+    const user = await getUserById(userId);
+    if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    res.json(user);
+} catch (error) {
+    res.status(500).json({ message: error.message });
+}
+};
+
+export const deleteProfile = async (req, res) => {
+const { id } = req.params;
+
+try {
+    if (isNaN(id)) {
+    return res.status(400).json({ message: 'ID de usuario inválido' });
+    }
+
+    const result = await deleteUser(id);
+
+    if (result === 0) {
+    return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Usuario eliminado con éxito' });
+
+    } catch (error) {
+    console.error('Error al eliminar usuario:', error);
+    res.status(500).json({ message: 'Error interno del servidor', error: error.message });
+}
 };
