@@ -44,6 +44,7 @@ export const addUser = async (email, password, nombre) => {
     }
 };
 
+
 export const loginUser = async (email, password) => {
 
     // Validar que se proporcionen email y password
@@ -63,6 +64,12 @@ export const loginUser = async (email, password) => {
             throw new Error('Usuario no encontrado');
         }
 
+        // DEBUG DETALLADO
+        console.log('🔐 COMPARANDO CONTRASEÑAS:');
+        console.log('   - Password proporcionada:', `"${password}"`);
+        console.log('   - Password en BD:', `"${searchUser.password}"`);
+        console.log('   - Longitud password BD:', searchUser.password.length);
+        console.log('   - ¿Password BD parece hash?', searchUser.password.length > 20 ? 'SÍ' : 'NO (PROBLEMA!)');
         // Comparar la contraseña proporcionada con la almacenada (usando bcrypt)
 
         const isMatch = await bcrypt.compare(password, searchUser.password);
