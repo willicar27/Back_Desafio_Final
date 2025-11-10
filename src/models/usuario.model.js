@@ -15,7 +15,7 @@ export const insertUserQuery = async (email, hashedPassword, nombre) => {
 };
 
 export const getUserById = async (userId) => {
-    const query = 'SELECT id, email, nombre FROM usuarios WHERE id = $1';
+    const query = 'SELECT id_usuarios, email, nombre FROM usuarios WHERE id_usuarios = $1';
     const values = [userId];
     try {
     const result = await pool.query(query, values);

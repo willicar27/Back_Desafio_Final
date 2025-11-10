@@ -61,3 +61,22 @@ const checkAdmin = async (req, res, next) => {
 };
 
 export { authenticateJWT, checkAdmin };
+
+
+
+// En middlewares/middleware.js
+// const checkUserPermission = async (req, res, next) => {
+//   try {
+//     const { id_usuarios, admin } = req.user;
+//     const requestedId = parseInt(req.params.id);
+
+//     if (admin || id_usuarios === requestedId) {
+//       return next();
+//     }
+    
+//     return res.status(403).json({ message: 'No tienes permiso para acceder a este usuario' });
+//   } catch (err) {
+//     console.error('Error en checkUserPermission:', err);
+//     return res.status(500).json({ message: 'Error interno en verificación de permisos' });
+//   }
+// };

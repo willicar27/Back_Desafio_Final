@@ -64,12 +64,6 @@ export const loginUser = async (email, password) => {
             throw new Error('Usuario no encontrado');
         }
 
-        // DEBUG DETALLADO
-        console.log('🔐 COMPARANDO CONTRASEÑAS:');
-        console.log('   - Password proporcionada:', `"${password}"`);
-        console.log('   - Password en BD:', `"${searchUser.password}"`);
-        console.log('   - Longitud password BD:', searchUser.password.length);
-        console.log('   - ¿Password BD parece hash?', searchUser.password.length > 20 ? 'SÍ' : 'NO (PROBLEMA!)');
         // Comparar la contraseña proporcionada con la almacenada (usando bcrypt)
 
         const isMatch = await bcrypt.compare(password, searchUser.password);
@@ -120,11 +114,11 @@ export const getUserProfile = async (req, res) => {
 
 export const getUserProfileID = async (req, res) => {
 const userId = req.params.id;
-const loggedUserId = req.user.userId;
+const loggedUserId = req.user.id_usuarios;
 
 
   //validar que el userId del token sea igual al userId de la ruta
-if (userId !== loggedUserId) {
+if (userId !== loggedUserId && !req.user.admin) {
     return res.status(403).json({ message: 'No tienes permiso para acceder a este usuario' }); 
 }
 

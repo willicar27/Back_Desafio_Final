@@ -37,20 +37,12 @@ app.post('/usuarios', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-   console.log('🔍 LOGIN REQUEST RECIBIDA:');
-  console.log('Email recibido:', email);
-  console.log('Password recibida:', password);
-  console.log('Body completo:', req.body);
-
   try {
-    const token = await loginUser(email, password); // Usar la función de login
-    console.log('✅ LOGIN EXITOSO - Token generado');
+    const token = await loginUser(email, password);
     res.json({ 
-      success: true,
       message: 'Login exitoso',
       token });
   } catch (error) {
-    console.log('❌ ERROR EN LOGIN:', error.message);
     res.status(400).json({ 
       success: false,
       error: error.message 
